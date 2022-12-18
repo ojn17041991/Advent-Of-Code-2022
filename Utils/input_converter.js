@@ -160,5 +160,6 @@ var input_converter;
         return moves;
     }
     input_converter.get_crate_move_list = get_crate_move_list;
+    // Day 6 - Not required.
 })(input_converter = exports.input_converter || (exports.input_converter = {}));
 //# sourceMappingURL=input_converter.js.map

@@ -188,4 +188,6 @@ export module input_converter {
 
             return moves;
         }
+
+    // Day 6 - Not required.
 }
