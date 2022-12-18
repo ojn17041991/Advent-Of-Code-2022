@@ -74,4 +74,37 @@ export module input_converter {
         return list;
     }
 
+    // Day 4:
+    export function get_camp_ranges(input: string): object[] {
+
+        let ranges: object[] = [];
+        let lines: string[] = input.split(/\r?\n/g);
+
+        for (let i = 0; i < lines.length; ++i) {
+
+            // Split each line on , to get the ranges for the left/right elves.
+            // Then split each range on - to get the min/max.
+            let splits: string[] = lines[i].split(',');
+            let left_elf: string[] = splits[0].split('-');
+            let right_elf: string[] = splits[1].split('-');
+
+            // Define some type safe dictionaries to store the range information.
+            let left_range: { [key: string]: number } = {
+                "min": parseInt(left_elf[0]),
+                "max": parseInt(left_elf[1])
+            };
+            let right_range: { [key: string]: number } = {
+                "min": parseInt(right_elf[0]),
+                "max": parseInt(right_elf[1])
+            };
+            let range: { [key: string]: object } = {
+                "left": left_range,
+                "right": right_range
+            };
+
+            ranges.push(range);
+        }
+
+        return ranges;
+    }
 }

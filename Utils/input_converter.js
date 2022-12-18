@@ -66,5 +66,33 @@ var input_converter;
         return list;
     }
     input_converter.get_backpack_list_for_groups = get_backpack_list_for_groups;
+    // Day 4:
+    function get_camp_ranges(input) {
+        let ranges = [];
+        let lines = input.split(/\r?\n/g);
+        for (let i = 0; i < lines.length; ++i) {
+            // Split each line on , to get the ranges for the left/right elves.
+            // Then split each range on - to get the min/max.
+            let splits = lines[i].split(',');
+            let left_elf = splits[0].split('-');
+            let right_elf = splits[1].split('-');
+            // Define some type safe dictionaries to store the range information.
+            let left_range = {
+                "min": parseInt(left_elf[0]),
+                "max": parseInt(left_elf[1])
+            };
+            let right_range = {
+                "min": parseInt(right_elf[0]),
+                "max": parseInt(right_elf[1])
+            };
+            let range = {
+                "left": left_range,
+                "right": right_range
+            };
+            ranges.push(range);
+        }
+        return ranges;
+    }
+    input_converter.get_camp_ranges = get_camp_ranges;
 })(input_converter = exports.input_converter || (exports.input_converter = {}));
 //# sourceMappingURL=input_converter.js.map
