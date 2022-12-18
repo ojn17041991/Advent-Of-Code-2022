@@ -94,5 +94,71 @@ var input_converter;
         return ranges;
     }
     input_converter.get_camp_ranges = get_camp_ranges;
+    // Day 5:
+    // Input is in 2 parts. Split the input and returned the selected part.
+    function get_input_section(input, section_idx) {
+        let sections = input.split(/\n\s*\n/gm);
+        if (section_idx >= 0 && section_idx < sections.length) {
+            return sections[section_idx];
+        }
+        return "";
+    }
+    // How are the crates currently arranged?
+    function get_crate_arrangement_list(input) {
+        // Get the first section and split into lines.
+        let section = get_input_section(input, 0);
+        let lines = section.split(/\r?\n/g);
+        // Use the first line to get the max height of the crate arrangements.
+        // Then set up some empty arrays to represent the crate columns.
+        let total_height = (lines[0].length + 1) / 4;
+        let crates = [];
+        for (let c = 0; c < total_height; ++c) {
+            crates.push([]);
+        }
+        for (let i = 0; i < lines.length; ++i) {
+            for (let j = 0; j < crates.length; ++j) {
+                // Get the section of text representing a crate.
+                // Each crate is 3 characters long and spaced by an extra character.
+                let start_idx = j * 4;
+                let end_idx = start_idx + 3;
+                let crate = lines[i].substring(start_idx, end_idx);
+                // Make sure there is a valid value to represent the crate.
+                if (crate.match(/\[/g)) {
+                    crates[j].unshift(crate.substring(1, 2));
+                }
+            }
+        }
+        return crates;
+    }
+    input_converter.get_crate_arrangement_list = get_crate_arrangement_list;
+    // How are the crates going to be moved?
+    function get_crate_move_list(input) {
+        let moves = [];
+        // Get the second section and split into lines.
+        let section = get_input_section(input, 1);
+        let lines = section.split(/\r?\n/g);
+        // Search strings.
+        let move_str = 'move ';
+        let from_str = 'from ';
+        let to_str = 'to ';
+        for (let i = 0; i < lines.length; ++i) {
+            // String location indexes.
+            let move_loc = lines[i].indexOf(move_str);
+            let from_loc = lines[i].indexOf(from_str);
+            let to_loc = lines[i].indexOf(to_str);
+            // Values.
+            let num = parseInt(lines[i].substring(move_loc + move_str.length, from_loc));
+            let from = parseInt(lines[i].substring(from_loc + from_str.length, to_loc));
+            let to = parseInt(lines[i].substring(to_loc + to_str.length));
+            let move = {
+                "num": num,
+                "from": from,
+                "to": to
+            };
+            moves.push(move);
+        }
+        return moves;
+    }
+    input_converter.get_crate_move_list = get_crate_move_list;
 })(input_converter = exports.input_converter || (exports.input_converter = {}));
 //# sourceMappingURL=input_converter.js.map

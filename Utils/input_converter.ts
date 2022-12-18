@@ -107,4 +107,85 @@ export module input_converter {
 
         return ranges;
     }
+
+    // Day 5:
+        // Input is in 2 parts. Split the input and returned the selected part.
+        function get_input_section(input: string, section_idx: number): string {
+            let sections: string[] = input.split(/\n\s*\n/gm);
+            if (section_idx >= 0 && section_idx < sections.length) {
+                return sections[section_idx];
+            }
+            return "";
+        }
+
+        // How are the crates currently arranged?
+        export function get_crate_arrangement_list(input: string): string[][] {
+            // Get the first section and split into lines.
+            let section: string = get_input_section(input, 0);
+            let lines: string[] = section.split(/\r?\n/g);
+            
+            // Use the first line to get the max height of the crate arrangements.
+            // Then set up some empty arrays to represent the crate columns.
+            let total_height: number = (lines[0].length + 1) / 4;
+            let crates: string[][] = [];
+            for (let c = 0; c < total_height; ++c) {
+                crates.push([]);
+            }
+
+            for (let i = 0; i < lines.length; ++i) {
+                
+                for (let j = 0; j < crates.length; ++j) {
+
+                    // Get the section of text representing a crate.
+                    // Each crate is 3 characters long and spaced by an extra character.
+                    let start_idx: number = j * 4;
+                    let end_idx: number = start_idx + 3;
+                    let crate: string = lines[i].substring(start_idx, end_idx);
+
+                    // Make sure there is a valid value to represent the crate.
+                    if (crate.match(/\[/g)) {
+                        crates[j].unshift(crate.substring(1, 2));
+                    }
+                }
+
+            }
+
+            return crates;
+        }
+
+        // How are the crates going to be moved?
+        export function get_crate_move_list(input: string): object[] {
+            let moves: object[] = []
+
+            // Get the second section and split into lines.
+            let section: string = get_input_section(input, 1);
+            let lines: string[] = section.split(/\r?\n/g);
+
+            // Search strings.
+            let move_str: string = 'move ';
+            let from_str: string = 'from ';
+            let to_str: string = 'to ';
+
+            for (let i = 0; i < lines.length; ++i) {
+                
+                // String location indexes.
+                let move_loc: number = lines[i].indexOf(move_str);
+                let from_loc: number = lines[i].indexOf(from_str);
+                let to_loc: number = lines[i].indexOf(to_str);
+                
+                // Values.
+                let num: number = parseInt(lines[i].substring(move_loc + move_str.length, from_loc));
+                let from: number = parseInt(lines[i].substring(from_loc + from_str.length, to_loc));
+                let to: number = parseInt(lines[i].substring(to_loc + to_str.length));
+
+                let move: { [key: string]: number } = {
+                    "num": num,
+                    "from": from,
+                    "to": to
+                };
+                moves.push(move);
+            }
+
+            return moves;
+        }
 }
