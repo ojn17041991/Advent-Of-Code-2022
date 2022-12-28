@@ -265,4 +265,31 @@ export module input_converter {
         // Return the fully recursive tree structure.
         return output;
     }
+
+    // Day 8:
+    export function get_tree_grid(input: string): number[][] {
+        let output: number[][] = [];
+
+        // Get each line from the input.
+        let lines: string[] = get_basic_list(input);
+        for (let i = 0; i < lines.length; ++i) {
+
+            // Add empty array to output for the current line.
+            output.push([]);
+
+            // Start looping over each character in the line.
+            let line: string = lines[i];
+            for (let j = 0; j < line.length; ++j) {
+
+                // Convert the char to numeric and push it into the output array.
+                let digit: number = parseInt(line[j]);
+                output[i].push(digit);
+
+            }
+
+        }
+
+        // All numbers are now in the array so return it.
+        return output;
+    }
 }

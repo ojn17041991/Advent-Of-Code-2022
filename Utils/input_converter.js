@@ -220,5 +220,25 @@ var input_converter;
         return output;
     }
     input_converter.get_directory_tree = get_directory_tree;
+    // Day 8:
+    function get_tree_grid(input) {
+        let output = [];
+        // Get each line from the input.
+        let lines = get_basic_list(input);
+        for (let i = 0; i < lines.length; ++i) {
+            // Add empty array to output for the current line.
+            output.push([]);
+            // Start looping over each character in the line.
+            let line = lines[i];
+            for (let j = 0; j < line.length; ++j) {
+                // Convert the char to numeric and push it into the output array.
+                let digit = parseInt(line[j]);
+                output[i].push(digit);
+            }
+        }
+        // All numbers are now in the array so return it.
+        return output;
+    }
+    input_converter.get_tree_grid = get_tree_grid;
 })(input_converter = exports.input_converter || (exports.input_converter = {}));
 //# sourceMappingURL=input_converter.js.map
