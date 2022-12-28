@@ -3,6 +3,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.input_converter = void 0;
 var input_converter;
 (function (input_converter) {
+    // Generic:
+    function get_basic_list(input) {
+        return input.split(/\r?\n/g);
+    }
     // Day 1:
     function get_calorie_list(input) {
         let outer_list = [];
@@ -161,5 +165,60 @@ var input_converter;
     }
     input_converter.get_crate_move_list = get_crate_move_list;
     // Day 6 - Not required.
+    // Day 7:
+    function get_directory_tree(input) {
+        // Recursive function to populate the dictionary as we loop.
+        function recurse(tree, depth, size) {
+            // Do we need to recurse further to get to the current branch?
+            if (depth < directory_stack.length - 1) {
+                recurse(tree[directory_stack[depth]], depth + 1, size);
+                return tree;
+            }
+            // We've reached the current branch, so add the required branch/leaf.
+            let branch = {};
+            tree[directory_stack[depth]] = size > 0 ? size : branch; // If size is non-zero, it's a file, so append size.
+            return tree;
+        }
+        // Tree structure and current directory stack references.
+        let output = {};
+        let directory_stack = [];
+        // Get the list of commands.
+        let commands = get_basic_list(input);
+        for (let i = 0; i < commands.length; ++i) {
+            // Get the command components and check the type.
+            let components = commands[i].split(' ');
+            if (components[0] == '$') {
+                // Command.
+                if (components[1] == 'cd') {
+                    // cd - Update the current directory.
+                    if (components[2] == '..') {
+                        directory_stack.pop();
+                    }
+                    else {
+                        directory_stack.push(components[2]);
+                        // This is a new branch in the tree, so we'll add it to the existing structure recursively.
+                        output = recurse(output, 0, 0);
+                    }
+                }
+                else if (components[1] == 'ls') {
+                    // ls - Doesn't affect placement in the tree, so continue.
+                    continue;
+                }
+            }
+            else if (components[0] == 'dir') {
+                // Directory - Just lists directories, but doesn't cd into them, so continue.
+                continue;
+            }
+            else {
+                // File - Add it as a leaf.
+                directory_stack.push(components[1]);
+                output = recurse(output, 0, parseInt(components[0]));
+                directory_stack.pop(); // Done with the file now, so pop it from the stack.
+            }
+        }
+        // Return the fully recursive tree structure.
+        return output;
+    }
+    input_converter.get_directory_tree = get_directory_tree;
 })(input_converter = exports.input_converter || (exports.input_converter = {}));
 //# sourceMappingURL=input_converter.js.map
