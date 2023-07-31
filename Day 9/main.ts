@@ -3,7 +3,7 @@ import { input_converter } from '../Utils/input_converter';
 import { day_9_helper } from "../Utils/day_specific_helper";
 
 let input: string = file_manager.get_input_from_file(__dirname + '\\input.txt');
-let list: [string, number][] = input_converter.get_rope_list(input);
+let list: [string, number][] = input_converter.get_key_value_list(input);
 
 const NUM_KNOTS = 10;
 let posList: [number, number][] = [[0, 0]];

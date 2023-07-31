@@ -294,7 +294,7 @@ export module input_converter {
     }
 
     // Day 9:
-    export function get_rope_list(input: string): [string, number][] {
+    export function get_key_value_list(input: string): [string, number][] {
         let output: [string, number][] = [];
 
         let lines: string[] = get_basic_list(input);
@@ -307,4 +307,6 @@ export module input_converter {
 
         return output;
     }
+
+    // Day 10 - Not required.
 }

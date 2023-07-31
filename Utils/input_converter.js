@@ -241,7 +241,7 @@ var input_converter;
     }
     input_converter.get_tree_grid = get_tree_grid;
     // Day 9:
-    function get_rope_list(input) {
+    function get_key_value_list(input) {
         let output = [];
         let lines = get_basic_list(input);
         for (let i = 0; i < lines.length; ++i) {
@@ -252,6 +252,7 @@ var input_converter;
         }
         return output;
     }
-    input_converter.get_rope_list = get_rope_list;
+    input_converter.get_key_value_list = get_key_value_list;
+    // Day 10 - Not required.
 })(input_converter = exports.input_converter || (exports.input_converter = {}));
 //# sourceMappingURL=input_converter.js.map
