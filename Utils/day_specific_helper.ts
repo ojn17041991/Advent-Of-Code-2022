@@ -10,3 +10,24 @@ export module day_3_helper {
     }
 
 }
+
+export module day_9_helper {
+
+    export function is_within_vicinity(hPos: [number, number], tPos: [number, number]): boolean {
+        return ((hPos[0] >= tPos[0] - 1 && hPos[0] <= tPos[0] + 1) && (hPos[1] >= tPos[1] - 1 && hPos[1] <= tPos[1] + 1));
+    }
+    
+    export function get_step_value(dir: string): [number, number] {
+        switch (dir) {
+            case "U":
+                return [0, -1];
+            case "D":
+                return [0, 1];
+            case "L":
+                return [-1, 0];
+            case "R":
+                return [1, 0];
+        }
+    }
+
+}

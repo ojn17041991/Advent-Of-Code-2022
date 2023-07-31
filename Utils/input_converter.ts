@@ -292,4 +292,19 @@ export module input_converter {
         // All numbers are now in the array so return it.
         return output;
     }
+
+    // Day 9:
+    export function get_rope_list(input: string): [string, number][] {
+        let output: [string, number][] = [];
+
+        let lines: string[] = get_basic_list(input);
+        for (let i = 0; i < lines.length; ++i) {
+            let components: string[] = lines[i].split(' ');
+            let direction: string = components[0];
+            let steps: number = +components[1];
+            output.push([direction, steps]);
+        }
+
+        return output;
+    }
 }

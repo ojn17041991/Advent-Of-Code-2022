@@ -240,5 +240,18 @@ var input_converter;
         return output;
     }
     input_converter.get_tree_grid = get_tree_grid;
+    // Day 9:
+    function get_rope_list(input) {
+        let output = [];
+        let lines = get_basic_list(input);
+        for (let i = 0; i < lines.length; ++i) {
+            let components = lines[i].split(' ');
+            let direction = components[0];
+            let steps = +components[1];
+            output.push([direction, steps]);
+        }
+        return output;
+    }
+    input_converter.get_rope_list = get_rope_list;
 })(input_converter = exports.input_converter || (exports.input_converter = {}));
 //# sourceMappingURL=input_converter.js.map
