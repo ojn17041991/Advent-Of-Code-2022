@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.input_converter = void 0;
+const monkey_1 = require("./Classes/monkey");
 var input_converter;
 (function (input_converter) {
     // Generic:
@@ -13,7 +14,7 @@ var input_converter;
         let inner_list = [];
         let lines = input.split(/\r?\n/g);
         for (let i = 0; i < lines.length; ++i) {
-            if (lines[i] == '') {
+            if (lines[i] == "") {
                 outer_list.push(inner_list);
                 inner_list = [];
             }
@@ -29,8 +30,8 @@ var input_converter;
         let list = [];
         let lines = input.split(/\r?\n/g);
         for (let i = 0; i < lines.length; ++i) {
-            let parts = lines[i].split(' ');
-            list.push({ 'opponents_move': parts[0], 'your_move': parts[1] });
+            let parts = lines[i].split(" ");
+            list.push({ opponents_move: parts[0], your_move: parts[1] });
         }
         return list;
     }
@@ -41,8 +42,8 @@ var input_converter;
         let lines = input.split(/\r?\n/g);
         for (let i = 0; i < lines.length; ++i) {
             list.push({
-                "first_compartment": lines[i].substring(0, lines[i].length / 2),
-                "second_compartment": lines[i].substring(lines[i].length / 2)
+                first_compartment: lines[i].substring(0, lines[i].length / 2),
+                second_compartment: lines[i].substring(lines[i].length / 2),
             });
         }
         return list;
@@ -77,21 +78,21 @@ var input_converter;
         for (let i = 0; i < lines.length; ++i) {
             // Split each line on , to get the ranges for the left/right elves.
             // Then split each range on - to get the min/max.
-            let splits = lines[i].split(',');
-            let left_elf = splits[0].split('-');
-            let right_elf = splits[1].split('-');
+            let splits = lines[i].split(",");
+            let left_elf = splits[0].split("-");
+            let right_elf = splits[1].split("-");
             // Define some type safe dictionaries to store the range information.
             let left_range = {
-                "min": parseInt(left_elf[0]),
-                "max": parseInt(left_elf[1])
+                min: parseInt(left_elf[0]),
+                max: parseInt(left_elf[1]),
             };
             let right_range = {
-                "min": parseInt(right_elf[0]),
-                "max": parseInt(right_elf[1])
+                min: parseInt(right_elf[0]),
+                max: parseInt(right_elf[1]),
             };
             let range = {
-                "left": left_range,
-                "right": right_range
+                left: left_range,
+                right: right_range,
             };
             ranges.push(range);
         }
@@ -142,9 +143,9 @@ var input_converter;
         let section = get_input_section(input, 1);
         let lines = section.split(/\r?\n/g);
         // Search strings.
-        let move_str = 'move ';
-        let from_str = 'from ';
-        let to_str = 'to ';
+        let move_str = "move ";
+        let from_str = "from ";
+        let to_str = "to ";
         for (let i = 0; i < lines.length; ++i) {
             // String location indexes.
             let move_loc = lines[i].indexOf(move_str);
@@ -155,9 +156,9 @@ var input_converter;
             let from = parseInt(lines[i].substring(from_loc + from_str.length, to_loc));
             let to = parseInt(lines[i].substring(to_loc + to_str.length));
             let move = {
-                "num": num,
-                "from": from,
-                "to": to
+                num: num,
+                from: from,
+                to: to,
             };
             moves.push(move);
         }
@@ -186,12 +187,12 @@ var input_converter;
         let commands = get_basic_list(input);
         for (let i = 0; i < commands.length; ++i) {
             // Get the command components and check the type.
-            let components = commands[i].split(' ');
-            if (components[0] == '$') {
+            let components = commands[i].split(" ");
+            if (components[0] == "$") {
                 // Command.
-                if (components[1] == 'cd') {
+                if (components[1] == "cd") {
                     // cd - Update the current directory.
-                    if (components[2] == '..') {
+                    if (components[2] == "..") {
                         directory_stack.pop();
                     }
                     else {
@@ -200,12 +201,12 @@ var input_converter;
                         output = recurse(output, 0, 0);
                     }
                 }
-                else if (components[1] == 'ls') {
+                else if (components[1] == "ls") {
                     // ls - Doesn't affect placement in the tree, so continue.
                     continue;
                 }
             }
-            else if (components[0] == 'dir') {
+            else if (components[0] == "dir") {
                 // Directory - Just lists directories, but doesn't cd into them, so continue.
                 continue;
             }
@@ -245,7 +246,7 @@ var input_converter;
         let output = [];
         let lines = get_basic_list(input);
         for (let i = 0; i < lines.length; ++i) {
-            let components = lines[i].split(' ');
+            let components = lines[i].split(" ");
             let direction = components[0];
             let steps = +components[1];
             output.push([direction, steps]);
@@ -254,5 +255,66 @@ var input_converter;
     }
     input_converter.get_key_value_list = get_key_value_list;
     // Day 10 - Not required.
+    // Day 11:
+    function get_monkeys(input) {
+        const monkeys = [];
+        let lines = get_basic_list(input);
+        for (let i = 0; i < lines.length;) {
+            // ID.
+            let id = +lines[i].split(" ")[1].replace(":", "");
+            ++i;
+            // Items.
+            let items = lines[i]
+                .split(":")[1]
+                .split(",")
+                .map((item) => +item);
+            ++i;
+            // Operation.
+            let operationComponents = lines[i]
+                .split("= old")[1]
+                .trim()
+                .split(" ")
+                .map((item) => item.trim());
+            let operator = operationComponents[0];
+            let operationValue = operationComponents[1];
+            let operand = +operationValue;
+            let operation = (x) => x;
+            switch (operator) {
+                case "+":
+                    operation = (x) => x + operand;
+                    break;
+                case "-":
+                    operation = (x) => x - operand;
+                    break;
+                case "*":
+                    operation = (x) => operationValue == "old" ? Math.pow(x, 2) : x * operand;
+                    break;
+                case "/":
+                    operation = (x) => x / operand;
+                    break;
+            }
+            ++i;
+            // Test.
+            let divisor = +lines[i].split("by")[1];
+            ++i;
+            let trueRecipient = +lines[i].split("monkey")[1];
+            ++i;
+            let falseRecipient = +lines[i].split("monkey")[1];
+            let test = (x) => {
+                if (x % divisor == 0) {
+                    return trueRecipient;
+                }
+                else {
+                    return falseRecipient;
+                }
+            };
+            // Add the monkey to the list.
+            monkeys.push(new monkey_1.Monkey(id, items, operation, divisor, test));
+            // Go to next monkey.
+            i += 2;
+        }
+        return monkeys;
+    }
+    input_converter.get_monkeys = get_monkeys;
 })(input_converter = exports.input_converter || (exports.input_converter = {}));
 //# sourceMappingURL=input_converter.js.map
