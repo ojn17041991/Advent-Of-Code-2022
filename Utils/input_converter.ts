@@ -1,4 +1,5 @@
 import { Monkey } from "./Classes/monkey";
+import { AStarNode } from "./Classes/a_star_node";
 
 export module input_converter {
   // Generic:
@@ -360,5 +361,24 @@ export module input_converter {
     }
 
     return monkeys;
+  }
+
+  // Day 12:
+  export function get_heightmap(input: string): AStarNode[][] {
+    let output: AStarNode[][] = [];
+
+    // Get each line from the input.
+    let lines: string[] = get_basic_list(input);
+    for (let i = 0; i < lines.length; ++i) {
+      output.push([]);
+      // Start looping over each character in the line.
+      let line: string = lines[i];
+      for (let j = 0; j < line.length; ++j) {
+        output[i].push(new AStarNode(lines[i][j], j, i));
+      }
+    }
+
+    // All numbers are now in the array so return it.
+    return output;
   }
 }

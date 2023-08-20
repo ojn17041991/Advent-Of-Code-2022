@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.input_converter = void 0;
 const monkey_1 = require("./Classes/monkey");
+const a_star_node_1 = require("./Classes/a_star_node");
 var input_converter;
 (function (input_converter) {
     // Generic:
@@ -316,5 +317,22 @@ var input_converter;
         return monkeys;
     }
     input_converter.get_monkeys = get_monkeys;
+    // Day 12:
+    function get_heightmap(input) {
+        let output = [];
+        // Get each line from the input.
+        let lines = get_basic_list(input);
+        for (let i = 0; i < lines.length; ++i) {
+            output.push([]);
+            // Start looping over each character in the line.
+            let line = lines[i];
+            for (let j = 0; j < line.length; ++j) {
+                output[i].push(new a_star_node_1.AStarNode(lines[i][j], j, i));
+            }
+        }
+        // All numbers are now in the array so return it.
+        return output;
+    }
+    input_converter.get_heightmap = get_heightmap;
 })(input_converter = exports.input_converter || (exports.input_converter = {}));
 //# sourceMappingURL=input_converter.js.map
