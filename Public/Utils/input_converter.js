@@ -3,6 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.input_converter = void 0;
 const monkey_1 = require("../Classes/monkey");
 const a_star_node_1 = require("../Classes/a_star_node");
+const vector_1 = require("../Classes/vector");
+const helper = require("./day_specific_helper");
 var input_converter;
 (function (input_converter) {
     // Generic:
@@ -397,6 +399,59 @@ var input_converter;
                     break;
             }
         }
+    }
+    // Day 14:
+    function draw_cave(input) {
+        // Draw a blank cave.
+        let cave = [];
+        for (let i = 0; i < 1000; ++i) {
+            cave.push([]);
+            for (let j = 0; j < 5000; ++j) {
+                cave[i].push(".");
+            }
+        }
+        // Break down the input and draw lines.
+        let lines = get_basic_list(input);
+        for (let i = 0; i < lines.length; ++i) {
+            let vectors = lines[i].split(" -> ");
+            for (let j = 0; j < vectors.length; ++j) {
+                if (j < vectors.length - 1) {
+                    var v = get_vector(vectors[j]);
+                    // If there is a second vector, draw the line.
+                    let v2 = get_vector(vectors[j + 1]);
+                    // Assuming right now that there are no diagonal lines to draw.
+                    if (v.x != v2.x) {
+                        for (let k = Math.min(v.x, v2.x); k <= Math.max(v.x, v2.x); ++k) {
+                            cave[v.y][k + 2500] = "#";
+                        }
+                    }
+                    else if (v.y != v2.y) {
+                        for (let k = Math.min(v.y, v2.y); k <= Math.max(v.y, v2.y); ++k) {
+                            cave[k][v.x + 2500] = "#";
+                        }
+                    }
+                }
+            }
+        }
+        // Find the bottom.
+        var limit_y = helper.day_14_helper.get_lowest_cave_point(cave);
+        // remove all rows above limit_y from cave
+        cave = cave.slice(0, limit_y + 3);
+        // Create the floor.
+        for (let i = 0; i < cave[cave.length - 1].length; ++i) {
+            cave[cave.length - 1][i] = "#";
+        }
+        // var cave_str: string = cave.map((row) => row.join("")).join("\n");
+        // fs.writeFileSync(
+        //   "C:\\Users\\Oliver\\source\\repos\\Advent-Of-Code-2022\\Outputs\\day14_output.txt",
+        //   cave_str
+        // );
+        return cave;
+    }
+    input_converter.draw_cave = draw_cave;
+    function get_vector(input) {
+        let components = input.split(",");
+        return new vector_1.Vector(+components[0], +components[1]);
     }
 })(input_converter = exports.input_converter || (exports.input_converter = {}));
 //# sourceMappingURL=input_converter.js.map

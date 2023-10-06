@@ -1,5 +1,8 @@
 import { Monkey } from "../Classes/monkey";
 import { AStarNode } from "../Classes/a_star_node";
+import { Vector } from "../Classes/vector";
+import * as fs from "fs";
+import * as helper from "./day_specific_helper";
 
 export module input_converter {
   // Generic:
@@ -452,5 +455,63 @@ export module input_converter {
           break;
       }
     }
+  }
+
+  // Day 14:
+  export function draw_cave(input: string): string[][] {
+    // Draw a blank cave.
+    let cave: string[][] = [];
+    for (let i = 0; i < 1000; ++i) {
+      cave.push([]);
+      for (let j = 0; j < 5000; ++j) {
+        cave[i].push(".");
+      }
+    }
+
+    // Break down the input and draw lines.
+    let lines: string[] = get_basic_list(input);
+    for (let i = 0; i < lines.length; ++i) {
+      let vectors: string[] = lines[i].split(" -> ");
+      for (let j = 0; j < vectors.length; ++j) {
+        if (j < vectors.length - 1) {
+          var v: Vector = get_vector(vectors[j]);
+          // If there is a second vector, draw the line.
+          let v2: Vector = get_vector(vectors[j + 1]);
+          // Assuming right now that there are no diagonal lines to draw.
+          if (v.x != v2.x) {
+            for (let k = Math.min(v.x, v2.x); k <= Math.max(v.x, v2.x); ++k) {
+              cave[v.y][k + 2500] = "#";
+            }
+          } else if (v.y != v2.y) {
+            for (let k = Math.min(v.y, v2.y); k <= Math.max(v.y, v2.y); ++k) {
+              cave[k][v.x + 2500] = "#";
+            }
+          }
+        }
+      }
+    }
+
+    // Find the bottom.
+    var limit_y: number = helper.day_14_helper.get_lowest_cave_point(cave);
+    // remove all rows above limit_y from cave
+    cave = cave.slice(0, limit_y + 3);
+
+    // Create the floor.
+    for (let i = 0; i < cave[cave.length - 1].length; ++i) {
+      cave[cave.length - 1][i] = "#";
+    }
+
+    // var cave_str: string = cave.map((row) => row.join("")).join("\n");
+    // fs.writeFileSync(
+    //   "C:\\Users\\Oliver\\source\\repos\\Advent-Of-Code-2022\\Outputs\\day14_output.txt",
+    //   cave_str
+    // );
+
+    return cave;
+  }
+
+  function get_vector(input: string): Vector {
+    let components: string[] = input.split(",");
+    return new Vector(+components[0], +components[1]);
   }
 }
