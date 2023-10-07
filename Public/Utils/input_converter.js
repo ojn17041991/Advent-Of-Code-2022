@@ -5,6 +5,7 @@ const monkey_1 = require("../Classes/monkey");
 const a_star_node_1 = require("../Classes/a_star_node");
 const vector_1 = require("../Classes/vector");
 const helper = require("./day_specific_helper");
+const sensor_instruction_1 = require("../Classes/sensor_instruction");
 var input_converter;
 (function (input_converter) {
     // Generic:
@@ -453,5 +454,30 @@ var input_converter;
         let components = input.split(",");
         return new vector_1.Vector(+components[0], +components[1]);
     }
+    // Day 15:
+    function get_sensor_instructions(input) {
+        let instructions = [];
+        let lines = get_basic_list(input);
+        for (let i = 0; i < lines.length; ++i) {
+            let components = lines[i].split(":");
+            let sensor_info = components[0];
+            let beacon_info = components[1];
+            // write a regex to find a number
+            let sensor_regex = /=[\-0-9]+/g;
+            let sensor_matches = sensor_info.match(sensor_regex);
+            let sensor_x = +sensor_matches[0].replace("=", "");
+            let sensor_y = +sensor_matches[1].replace("=", "");
+            let sensor = new vector_1.Vector(sensor_x, sensor_y);
+            // same again for beacon
+            let beacon_regex = /=[\-0-9]+/g;
+            let beacon_matches = beacon_info.match(beacon_regex);
+            let beacon_x = +beacon_matches[0].replace("=", "");
+            let beacon_y = +beacon_matches[1].replace("=", "");
+            let beacon = new vector_1.Vector(beacon_x, beacon_y);
+            instructions.push(new sensor_instruction_1.SensorInstruction(sensor, beacon));
+        }
+        return instructions;
+    }
+    input_converter.get_sensor_instructions = get_sensor_instructions;
 })(input_converter = exports.input_converter || (exports.input_converter = {}));
 //# sourceMappingURL=input_converter.js.map

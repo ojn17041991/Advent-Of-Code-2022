@@ -31,4 +31,13 @@ export module file_manager {
       str
     );
   }
+
+  export function save_string_to_file(input: string, file_name: string): void {
+    fs.writeFileSync(
+      "C:\\Users\\Oliver\\source\\repos\\Advent-Of-Code-2022\\Outputs\\" +
+        file_name +
+        ".txt",
+      input
+    );
+  }
 }

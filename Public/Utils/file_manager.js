@@ -28,5 +28,11 @@ var file_manager;
             ".txt", str);
     }
     file_manager.save_2d_array_to_file = save_2d_array_to_file;
+    function save_string_to_file(input, file_name) {
+        fs.writeFileSync("C:\\Users\\Oliver\\source\\repos\\Advent-Of-Code-2022\\Outputs\\" +
+            file_name +
+            ".txt", input);
+    }
+    file_manager.save_string_to_file = save_string_to_file;
 })(file_manager = exports.file_manager || (exports.file_manager = {}));
 //# sourceMappingURL=file_manager.js.map

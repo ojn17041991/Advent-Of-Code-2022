@@ -3,6 +3,7 @@ import { AStarNode } from "../Classes/a_star_node";
 import { Vector } from "../Classes/vector";
 import * as fs from "fs";
 import * as helper from "./day_specific_helper";
+import { SensorInstruction } from "../Classes/sensor_instruction";
 
 export module input_converter {
   // Generic:
@@ -513,5 +514,35 @@ export module input_converter {
   function get_vector(input: string): Vector {
     let components: string[] = input.split(",");
     return new Vector(+components[0], +components[1]);
+  }
+
+  // Day 15:
+  export function get_sensor_instructions(input: string): SensorInstruction[] {
+    let instructions: SensorInstruction[] = [];
+
+    let lines: string[] = get_basic_list(input);
+    for (let i = 0; i < lines.length; ++i) {
+      let components: string[] = lines[i].split(":");
+      let sensor_info: string = components[0];
+      let beacon_info: string = components[1];
+
+      // write a regex to find a number
+      let sensor_regex: RegExp = /=[\-0-9]+/g;
+      let sensor_matches: RegExpMatchArray = sensor_info.match(sensor_regex);
+      let sensor_x: number = +sensor_matches[0].replace("=", "");
+      let sensor_y: number = +sensor_matches[1].replace("=", "");
+      let sensor: Vector = new Vector(sensor_x, sensor_y);
+
+      // same again for beacon
+      let beacon_regex: RegExp = /=[\-0-9]+/g;
+      let beacon_matches: RegExpMatchArray = beacon_info.match(beacon_regex);
+      let beacon_x: number = +beacon_matches[0].replace("=", "");
+      let beacon_y: number = +beacon_matches[1].replace("=", "");
+      let beacon: Vector = new Vector(beacon_x, beacon_y);
+
+      instructions.push(new SensorInstruction(sensor, beacon));
+    }
+
+    return instructions;
   }
 }
