@@ -14,7 +14,7 @@
       "type": "node",
       "name": "Run Current File",
       "request": "launch",
-      "program": "${workspaceFolder}\\Source\\day15.ts"
+      "program": "${workspaceFolder}\\Source\\day16.ts"
     }
   ]
 }

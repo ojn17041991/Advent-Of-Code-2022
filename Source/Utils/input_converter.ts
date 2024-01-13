@@ -4,6 +4,7 @@ import { Vector } from "../Classes/vector";
 import * as fs from "fs";
 import * as helper from "./day_specific_helper";
 import { SensorInstruction } from "../Classes/sensor_instruction";
+import { Valve } from "../Classes/valve";
 
 export module input_converter {
   // Generic:
@@ -544,5 +545,40 @@ export module input_converter {
     }
 
     return instructions;
+  }
+
+  // Day 16:
+  export function get_valves(input: string): Valve[] {
+    let valves: Valve[] = [];
+    let flow_rate_regex: RegExp = /flow rate=[0-9]+;/g;
+    let valves_regex: RegExp = /valve[A-Za-z, ]+/g;
+
+    let lines: string[] = get_basic_list(input);
+    for (let i = 0; i < lines.length; ++i) {
+      let name: string = lines[i].substring(6, 8);
+      let flow_rate: number = +lines[i]
+        .match(flow_rate_regex)[0]
+        .replace("flow rate=", "")
+        .replace(";", "");
+      let valve: Valve = new Valve(name, flow_rate);
+      valves.push(valve);
+    }
+    for (let i = 0; i < lines.length; ++i) {
+      let valve: Valve = valves[i];
+      let connected_valves: string[] = lines[i]
+        .match(valves_regex)[0]
+        .split(",")
+        .map((valve) =>
+          valve.replace("valves", "").replace("valve", "").trim()
+        );
+      for (let j = 0; j < connected_valves.length; ++j) {
+        let connected_valve: Valve = valves.find(
+          (valve) => valve.name == connected_valves[j]
+        );
+        valve.connect_to(connected_valve);
+      }
+    }
+
+    return valves;
   }
 }

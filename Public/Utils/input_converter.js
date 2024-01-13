@@ -6,6 +6,7 @@ const a_star_node_1 = require("../Classes/a_star_node");
 const vector_1 = require("../Classes/vector");
 const helper = require("./day_specific_helper");
 const sensor_instruction_1 = require("../Classes/sensor_instruction");
+const valve_1 = require("../Classes/valve");
 var input_converter;
 (function (input_converter) {
     // Generic:
@@ -479,5 +480,34 @@ var input_converter;
         return instructions;
     }
     input_converter.get_sensor_instructions = get_sensor_instructions;
+    // Day 16:
+    function get_valves(input) {
+        let valves = [];
+        let flow_rate_regex = /flow rate=[0-9]+;/g;
+        let valves_regex = /valve[A-Za-z, ]+/g;
+        let lines = get_basic_list(input);
+        for (let i = 0; i < lines.length; ++i) {
+            let name = lines[i].substring(6, 8);
+            let flow_rate = +lines[i]
+                .match(flow_rate_regex)[0]
+                .replace("flow rate=", "")
+                .replace(";", "");
+            let valve = new valve_1.Valve(name, flow_rate);
+            valves.push(valve);
+        }
+        for (let i = 0; i < lines.length; ++i) {
+            let valve = valves[i];
+            let connected_valves = lines[i]
+                .match(valves_regex)[0]
+                .split(",")
+                .map((valve) => valve.replace("valves", "").replace("valve", "").trim());
+            for (let j = 0; j < connected_valves.length; ++j) {
+                let connected_valve = valves.find((valve) => valve.name == connected_valves[j]);
+                valve.connect_to(connected_valve);
+            }
+        }
+        return valves;
+    }
+    input_converter.get_valves = get_valves;
 })(input_converter = exports.input_converter || (exports.input_converter = {}));
 //# sourceMappingURL=input_converter.js.map
