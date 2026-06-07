@@ -13,7 +13,7 @@ var day_3_helper;
         }
     }
     day_3_helper.get_score_from_char = get_score_from_char;
-})(day_3_helper = exports.day_3_helper || (exports.day_3_helper = {}));
+})(day_3_helper || (exports.day_3_helper = day_3_helper = {}));
 var day_9_helper;
 (function (day_9_helper) {
     function is_within_vicinity(hPos, tPos) {
@@ -36,7 +36,7 @@ var day_9_helper;
         }
     }
     day_9_helper.get_step_value = get_step_value;
-})(day_9_helper = exports.day_9_helper || (exports.day_9_helper = {}));
+})(day_9_helper || (exports.day_9_helper = day_9_helper = {}));
 var day_14_helper;
 (function (day_14_helper) {
     function get_lowest_cave_point(cave) {
@@ -51,5 +51,5 @@ var day_14_helper;
         return limit_y;
     }
     day_14_helper.get_lowest_cave_point = get_lowest_cave_point;
-})(day_14_helper = exports.day_14_helper || (exports.day_14_helper = {}));
+})(day_14_helper || (exports.day_14_helper = day_14_helper = {}));
 //# sourceMappingURL=day_specific_helper.js.map

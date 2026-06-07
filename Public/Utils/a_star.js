@@ -162,5 +162,5 @@ var a_star;
             }
         }
     }
-})(a_star = exports.a_star || (exports.a_star = {}));
+})(a_star || (exports.a_star = a_star = {}));
 //# sourceMappingURL=a_star.js.map

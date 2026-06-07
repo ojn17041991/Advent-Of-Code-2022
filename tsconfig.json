@@ -4,6 +4,7 @@
     "module": "commonjs",
     "sourceMap": true,
     "rootDir": "Source",
-    "outDir": "Public"
+    "outDir": "Public",
+    "types": ["node"]
   }
 }

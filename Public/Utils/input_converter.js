@@ -509,5 +509,10 @@ var input_converter;
         return valves;
     }
     input_converter.get_valves = get_valves;
-})(input_converter = exports.input_converter || (exports.input_converter = {}));
+    // Day 17:
+    function get_gas_jets(input) {
+        return input.split("");
+    }
+    input_converter.get_gas_jets = get_gas_jets;
+})(input_converter || (exports.input_converter = input_converter = {}));
 //# sourceMappingURL=input_converter.js.map

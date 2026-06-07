@@ -30,5 +30,5 @@ var quick_sort;
         list[j] = temp;
         return list;
     }
-})(quick_sort = exports.quick_sort || (exports.quick_sort = {}));
+})(quick_sort || (exports.quick_sort = quick_sort = {}));
 //# sourceMappingURL=quick_sort.js.map

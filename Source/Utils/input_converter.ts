@@ -581,4 +581,9 @@ export module input_converter {
 
     return valves;
   }
+
+  // Day 17:
+  export function get_gas_jets(input: string): string[] {
+    return input.split("");
+  }
 }

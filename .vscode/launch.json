@@ -6,15 +6,9 @@
       "request": "launch",
       "name": "Launch Program",
       "skipFiles": ["<node_internals>/**"],
-      "program": "${workspaceFolder}\\Source\\day13.ts",
+      "program": "${workspaceFolder}\\Source\\day17.ts",
       "preLaunchTask": "tsc: build - tsconfig.json",
       "outFiles": ["${workspaceFolder}/Public/**/*.js"]
-    },
-    {
-      "type": "node",
-      "name": "Run Current File",
-      "request": "launch",
-      "program": "${workspaceFolder}\\Source\\day16.ts"
     }
   ]
 }
