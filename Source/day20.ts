@@ -43,5 +43,4 @@ function solve(input: string): number {
   return a + b + c;
 }
 
-// usage:
 console.log(solve(input));

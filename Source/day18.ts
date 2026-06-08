@@ -48,5 +48,4 @@ function solve(input: string): number {
   return surface;
 }
 
-// usage:
 console.log(solve(input));

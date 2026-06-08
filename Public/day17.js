@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var file_manager_1 = require("./Utils/file_manager");
-var input = file_manager_1.file_manager.get_input_from_file(__filename);
-var WIDTH = 7;
+const file_manager_1 = require("./Utils/file_manager");
+let input = file_manager_1.file_manager.get_input_from_file(__filename);
+const WIDTH = 7;
 // Rock shapes (relative coordinates)
-var SHAPES = [
+const SHAPES = [
     // -
     [
         [0, 0],
@@ -44,36 +44,34 @@ var SHAPES = [
     ],
 ];
 function solve(input) {
-    var jets = input.trim().split("");
-    var jetIndex = 0;
-    var occupied = new Set();
-    var top = -1;
-    var key = function (x, y) { return "".concat(x, ",").concat(y); };
-    var collides = function (shape, dx, dy) {
-        return shape.some(function (_a) {
-            var x = _a[0], y = _a[1];
-            var nx = x + dx;
-            var ny = y + dy;
+    const jets = input.trim().split("");
+    let jetIndex = 0;
+    const occupied = new Set();
+    let top = -1;
+    const key = (x, y) => `${x},${y}`;
+    const collides = (shape, dx, dy) => {
+        return shape.some(([x, y]) => {
+            const nx = x + dx;
+            const ny = y + dy;
             if (nx < 0 || nx >= WIDTH || ny < 0)
                 return true;
             return occupied.has(key(nx, ny));
         });
     };
-    var place = function (shape, dx, dy) {
-        for (var _i = 0, shape_1 = shape; _i < shape_1.length; _i++) {
-            var _a = shape_1[_i], x = _a[0], y = _a[1];
+    const place = (shape, dx, dy) => {
+        for (const [x, y] of shape) {
             occupied.add(key(x + dx, y + dy));
             top = Math.max(top, y + dy);
         }
     };
-    for (var i = 0; i < 2022; i++) {
-        var shape = SHAPES[i % SHAPES.length];
-        var x = 2;
-        var y = top + 4;
+    for (let i = 0; i < 2022; i++) {
+        const shape = SHAPES[i % SHAPES.length];
+        let x = 2;
+        let y = top + 4;
         while (true) {
             // jet push
-            var jet = jets[jetIndex++ % jets.length];
-            var dx = jet === "<" ? -1 : 1;
+            const jet = jets[jetIndex++ % jets.length];
+            const dx = jet === "<" ? -1 : 1;
             if (!collides(shape, x + dx, y)) {
                 x += dx;
             }
@@ -89,6 +87,5 @@ function solve(input) {
     }
     return top + 1;
 }
-// Example usage:
 console.log(solve(input));
 //# sourceMappingURL=day17.js.map

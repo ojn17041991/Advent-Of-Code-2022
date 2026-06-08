@@ -99,5 +99,4 @@ function solve(input: string): number {
   return top + 1;
 }
 
-// Example usage:
 console.log(solve(input));

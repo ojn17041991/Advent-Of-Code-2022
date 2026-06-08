@@ -189,5 +189,4 @@ function solve(input: string): number {
   return sum;
 }
 
-// usage:
 console.log(solve(input));
