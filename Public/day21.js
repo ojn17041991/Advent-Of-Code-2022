@@ -1,28 +1,27 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var file_manager_1 = require("./Utils/file_manager");
-var input = file_manager_1.file_manager.get_input_from_file(__filename);
+const file_manager_1 = require("./Utils/file_manager");
+let input = file_manager_1.file_manager.get_input_from_file(__filename);
 function solve(input) {
-    var monkeys = new Map();
-    var lines = input.trim().split(/\r?\n/);
-    for (var _i = 0, lines_1 = lines; _i < lines_1.length; _i++) {
-        var rawLine = lines_1[_i];
-        var line = rawLine.trim();
+    const monkeys = new Map();
+    const lines = input.trim().split(/\r?\n/);
+    for (const rawLine of lines) {
+        const line = rawLine.trim();
         if (!line) {
             continue;
         }
-        var parts = line.split(":");
-        var name_1 = parts[0].trim();
-        var expr = parts[1].trim();
+        const parts = line.split(":");
+        const name = parts[0].trim();
+        const expr = parts[1].trim();
         if (/^\d+$/.test(expr)) {
-            monkeys.set(name_1, {
+            monkeys.set(name, {
                 type: "number",
                 value: Number(expr),
             });
         }
         else {
-            var tokens = expr.split(" ");
-            monkeys.set(name_1, {
+            const tokens = expr.split(" ");
+            monkeys.set(name, {
                 type: "operation",
                 left: tokens[0],
                 op: tokens[1],
@@ -30,23 +29,23 @@ function solve(input) {
             });
         }
     }
-    var cache = new Map();
+    const cache = new Map();
     function evaluate(name) {
-        var cached = cache.get(name);
+        const cached = cache.get(name);
         if (cached !== undefined) {
             return cached;
         }
-        var job = monkeys.get(name);
+        const job = monkeys.get(name);
         if (!job) {
             throw new Error("Monkey not found: " + name);
         }
-        var result;
+        let result;
         if (job.type === "number") {
             result = job.value;
         }
         else {
-            var left = evaluate(job.left);
-            var right = evaluate(job.right);
+            const left = evaluate(job.left);
+            const right = evaluate(job.right);
             switch (job.op) {
                 case "+":
                     result = left + right;

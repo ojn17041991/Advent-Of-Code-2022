@@ -1,26 +1,25 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var file_manager_1 = require("./Utils/file_manager");
-var input = file_manager_1.file_manager.get_input_from_file(__filename);
+const file_manager_1 = require("./Utils/file_manager");
+let input = file_manager_1.file_manager.get_input_from_file(__filename);
 function solve(input) {
-    var parts = input.split(/\r?\n\r?\n/);
-    var mapLines = parts[0].split(/\r?\n/);
-    var instructions = parts[1].trim();
-    var width = Math.max.apply(null, mapLines.map(function (x) { return x.length; }));
-    var grid = mapLines.map(function (line) { return line.padEnd(width, " ").split(""); });
-    var row = 0;
-    var col = grid[0].indexOf(".");
+    const parts = input.split(/\r?\n\r?\n/);
+    const mapLines = parts[0].split(/\r?\n/);
+    const instructions = parts[1].trim();
+    const width = Math.max.apply(null, mapLines.map((x) => x.length));
+    const grid = mapLines.map((line) => line.padEnd(width, " ").split(""));
+    let row = 0;
+    let col = grid[0].indexOf(".");
     // 0=right,1=down,2=left,3=up
-    var facing = 0;
-    var dirs = [
+    let facing = 0;
+    const dirs = [
         [0, 1],
         [1, 0],
         [0, -1],
         [-1, 0],
     ];
-    var tokens = instructions.match(/\d+|[LR]/g) || [];
-    for (var _i = 0, tokens_1 = tokens; _i < tokens_1.length; _i++) {
-        var token = tokens_1[_i];
+    const tokens = instructions.match(/\d+|[LR]/g) || [];
+    for (const token of tokens) {
         if (token === "L") {
             facing = (facing + 3) % 4;
             continue;
@@ -29,10 +28,10 @@ function solve(input) {
             facing = (facing + 1) % 4;
             continue;
         }
-        var steps = Number(token);
-        for (var step = 0; step < steps; step++) {
-            var nextRow = row + dirs[facing][0];
-            var nextCol = col + dirs[facing][1];
+        const steps = Number(token);
+        for (let step = 0; step < steps; step++) {
+            let nextRow = row + dirs[facing][0];
+            let nextCol = col + dirs[facing][1];
             if (nextRow < 0 ||
                 nextRow >= grid.length ||
                 nextCol < 0 ||
